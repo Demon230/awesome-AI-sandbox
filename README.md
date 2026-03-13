@@ -1,6 +1,6 @@
 # Awesome AI Sandboxing
 
-> A curated list of projects, tools, and references for running AI agents inside safer execution environments.
+> A curated list of projects, tools, and references for running AI agents inside safer execution environments, with a focus on open-source solutions.
 
 AI coding agents are useful precisely because they can read files, run commands, install packages, open network connections, and modify code. That also makes them risky. This list focuses on projects that reduce that risk with OS sandboxes, separate user accounts, virtual machines, containers, policy engines, and related guardrails.
 
@@ -11,15 +11,12 @@ AI coding agents are useful precisely because they can read files, run commands,
 - [Container and runtime sandboxes](#container-and-runtime-sandboxes)
 - [Foundational sandbox tools](#foundational-sandbox-tools)
 - [Permission and policy guardrails](#permission-and-policy-guardrails)
-- [Commercial apps](#commercial-apps)
-- [Orchestration and control planes](#orchestration-and-control-planes)
 - [Deprecated and archived projects](#deprecated-and-archived-projects)
 - [References](#references)
 
 ## macOS-native sandboxes
 
 - [Agent Safehouse](https://github.com/eugene1g/agent-safehouse) - Deny-first macOS sandboxing for coding agents using composable `sandbox-exec` profiles, policy builder tooling, and audited profile fragments.
-- [Ash](https://ashell.dev/) - macOS agent sandbox built on Endpoint Security and Network Extension frameworks with fine-grained controls for files, network, processes, devices, and environment variables.
 - [ClodPod](https://github.com/webcoyote/clodpod) - Runs AI agents inside a macOS VM while mapping one or more host project directories into the guest for isolated development.
 - [SandVault](https://github.com/webcoyote/sandvault) - Runs Claude Code, OpenAI Codex, Gemini, and shell commands in a sandboxed macOS user account with a shared workspace and optional `sandbox-exec` hardening.
 - [yoloAI](https://github.com/kstenerud/yoloai) - Sandboxed runner for AI coding agents that can use `sandbox-exec` on macOS, Tart on Apple Silicon, or Docker, with a review-and-apply workflow based on diffs and commits.
@@ -43,27 +40,21 @@ AI coding agents are useful precisely because they can read files, run commands,
 - [sandclaude](https://github.com/binwiederhier/sandclaude) - Opinionated Docker wrapper for running Claude Code without restrictions inside a sandboxed container with mounted workspace and host-matched user IDs.
 - [vibebin](https://github.com/jgbrwn/vibebin) - Incus/LXC-based platform for self-hosting persistent AI coding agent sandboxes on a Linux server with HTTPS routing, SSH access, and per-container tooling.
 - [cco](https://github.com/nikvdp/cco) - Thin wrapper that launches Claude Code or Codex inside native OS sandboxes when available, with Docker as a stronger fallback barrier.
-- [Docker AI Agent Sandboxes](https://docs.docker.com/ai/sandboxes/) - Docker's documentation and tooling around sandboxed environments for coding agents, including local containerized workflows.
 
 ## Foundational sandbox tools
 
 - [bubblewrap](https://github.com/containers/bubblewrap) - Low-level Linux sandbox builder that creates restricted environments via namespaces and filesystem layout controls; used by higher-level tools to define their own security model.
 - [Firejail](https://github.com/netblue30/firejail) - Lightweight Linux sandbox program using namespaces, seccomp-bpf, capabilities, and bundled profiles to restrict untrusted applications.
-- [Minijail](https://google.github.io/minijail/) - Sandboxing and containment tool used in ChromeOS and Android, providing both a launcher for sandboxed processes and a library for self-sandboxing.
+- [Minijail](https://github.com/google/minijail) - Sandboxing and containment tool used in ChromeOS and Android, providing both a launcher for sandboxed processes and a library for self-sandboxing.
 - [syd](https://git.sr.ht/~alip/syd) - Linux application sandboxing tool that intercepts system calls in userspace and combines mechanisms like Landlock, namespaces, ptrace, and seccomp into a secure-by-default containment model.
 
 ## Permission and policy guardrails
 
 - [Agent Safehouse](https://github.com/eugene1g/agent-safehouse) - Includes reusable least-privilege policy composition for running agents with fewer blanket permissions.
-- [Claude Hook Advisor](https://github.com/sirmews/claude-hook-advisor) - Claude Code hook tool for command suggestions, semantic path aliases, command history, and built-in detection of risky code patterns.
 - [Cupcake](https://github.com/eqtylab/cupcake) - Policy enforcement layer for coding agents that evaluates hook events against OPA/Rego rules and can allow, modify, block, warn, or require review.
 - [cco](https://github.com/nikvdp/cco) - Useful when the goal is to keep an agent in fast autonomous mode while interposing a sandbox boundary.
 - [nah](https://github.com/manuelschipper/nah) - Context-aware Claude Code permission guard that classifies tool calls by action type and applies deterministic allow, ask, or block policies.
 - [punkgo-jack](https://github.com/PunkGo/punkgo-jack) - Hook adapter for Claude Code and custom agents that records actions in an append-only Merkle log with cryptographic receipts and offline-verifiable session proofs.
-
-## Orchestration and control planes
-
-- [Spritz](https://github.com/textcortex/spritz) - Kubernetes-native control plane for creating, exposing, discovering, and talking to agent workloads through a consistent UI and API.
 
 ## Deprecated and archived projects
 
