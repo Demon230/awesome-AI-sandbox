@@ -31,6 +31,7 @@ AI coding agents are useful precisely because they can read files, run commands,
 - [Sculptor](https://github.com/imbue-ai/sculptor) - Desktop app for running parallel Claude agents in isolated containers and pairing with their environments to test and merge changes.
 - [yoloAI](https://github.com/kstenerud/yoloai) - Supports disposable Tart-backed sandboxes on macOS alongside other backends.
 
+- [zapcode](https://github.com/TheUncharted/zapcode) - TypeScript interpreter for AI agents. Written in Rust. 2µs cold start. Sandboxed. Alternative to MCP tool calling.
 ## Container and runtime sandboxes
 
 - [AIO Sandbox](https://github.com/agent-infra/sandbox) - All-in-one sandbox environment that combines browser, shell, file APIs, VS Code server, Jupyter, and MCP services in a single Docker container.
