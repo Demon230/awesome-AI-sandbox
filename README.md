@@ -6,146 +6,139 @@ AI coding agents are useful precisely because they can read files, run commands,
 
 ## Contents
 
-- [macOS-native sandboxes](#macos-native-sandboxes)
-- [Virtual machines and disposable environments](#virtual-machines-and-disposable-environments)
-- [Container and runtime sandboxes](#container-and-runtime-sandboxes)
-- [Foundational sandbox tools](#foundational-sandbox-tools)
-- [Permission and policy guardrails](#permission-and-policy-guardrails)
-- [Deprecated and archived projects](#deprecated-and-archived-projects)
+- [Host-level sandboxes and local workspace isolation](#host-level-sandboxes-and-local-workspace-isolation)
+- [Virtual machines and microVM platforms](#virtual-machines-and-microvm-platforms)
+- [Containers, LXC, and packaged runtimes](#containers-lxc-and-packaged-runtimes)
+- [Policy, approvals, and audit layers](#policy-approvals-and-audit-layers)
+- [Foundational sandbox primitives and low-level tooling](#foundational-sandbox-primitives-and-low-level-tooling)
+- [Profiles, templates, and operational helpers](#profiles-templates-and-operational-helpers)
+- [Adjacent agent systems and specialized experiments](#adjacent-agent-systems-and-specialized-experiments)
 - [References](#references)
 
-## macOS-native sandboxes
+## Host-level sandboxes and local workspace isolation
 
-- [Agent Safehouse](https://github.com/eugene1g/agent-safehouse) - Deny-first macOS sandboxing for coding agents using composable `sandbox-exec` profiles, policy builder tooling, and audited profile fragments.
-- [ClodPod](https://github.com/webcoyote/clodpod) - Runs AI agents inside a macOS VM while mapping one or more host project directories into the guest for isolated development.
-- [SandVault](https://github.com/webcoyote/sandvault) - Runs Claude Code, OpenAI Codex, Gemini, and shell commands in a sandboxed macOS user account with a shared workspace and optional `sandbox-exec` hardening.
-- [yoloAI](https://github.com/kstenerud/yoloai) - Sandboxed runner for AI coding agents that can use `sandbox-exec` on macOS, Tart on Apple Silicon, or Docker, with a review-and-apply workflow based on diffs and commits.
-- [agent-sandbox.nix](https://github.com/archie-judd/agent-sandbox.nix) - Nix-based wrappers for sandboxing AI CLI tools with explicit package, state, and optional domain-level network allowances.
-- [nixcage](https://github.com/hamidr/nixcage) - Sandboxed Nix environments with direnv auto-activation. Cross-platform: bwrap on Linux, sandbox-exec on macOS.
-- [sandbox-shell](https://github.com/agentic-dev3o/sandbox-shell) - macOS Seatbelt sandbox CLI with deny-by-default filesystem isolation for developer and agent workflows.
-- [agentbox](https://github.com/gbrindisi/agentbox) - Agent Safehouse – macOS-native sandboxing for local agents
-- [agentfs](https://github.com/tursodatabase/agentfs) - macOS's Little-Known Command-Line Sandboxing Tool (2025)
-- [ansible](https://github.com/debops-contrib/ansible-firejail) - Agent Safehouse – macOS-native sandboxing for local agents
-- [bvisor](https://github.com/butter-dot-dev/bvisor) - macOS's Little-Known Command-Line Sandboxing Tool (2025)
-- [claude](https://github.com/trailofbits/claude-code-devcontainer) - Agent Safehouse – macOS-native sandboxing for local agents
-- [clawvisor](https://github.com/clawvisor/clawvisor) - Agent Safehouse – macOS-native sandboxing for local agents
-- [deepclause](https://github.com/deepclause/deepclause-sdk) - Agent Safehouse – macOS-native sandboxing for local agents
-- [firejail](https://github.com/chiraag-nataraj/firejail-profiles) - Agent Safehouse – macOS-native sandboxing for local agents
-- [firetools](https://github.com/netblue30/firetools) - Agent Safehouse – macOS-native sandboxing for local agents
-- [firewarden](https://github.com/pigmonkey/firewarden) - Agent Safehouse – macOS-native sandboxing for local agents
-- [sacre_bleu](https://github.com/hsaliak/sacre_bleu) - Agent Safehouse – macOS-native sandboxing for local agents
-- [sandbox](https://github.com/carderne/sandbox-runtime) - Agent Safehouse – macOS-native sandboxing for local agents
-- [sandnix](https://github.com/srid/sandnix) - Agent Safehouse – macOS-native sandboxing for local agents
-- [shai](https://github.com/colony-2/shai) - macOS's Little-Known Command-Line Sandboxing Tool (2025)
-- [yolobox](https://github.com/finbarr/yolobox) - macOS's Little-Known Command-Line Sandboxing Tool (2025)
-- [treebeard](https://github.com/divmain/treebeard) - Agent Safehouse – macOS-native sandboxing for local agents
-- [vibebox](https://github.com/robcholz/vibebox) - Show HN: VibeBox – an ultrafast macOS sandbox for AI agents
-## Virtual machines and disposable environments
+- [Agent Safehouse](https://github.com/eugene1g/agent-safehouse) - Deny-first macOS Seatbelt profile system for local coding agents.
+- [agent-sandbox.nix](https://github.com/archie-judd/agent-sandbox.nix) - Nix wrappers for constrained AI CLI execution with explicit package and network allowances.
+- [cco](https://github.com/nikvdp/cco) - Thin launcher that picks a local sandbox backend rather than implementing one from scratch.
+- [Fence](https://github.com/use-tusk/fence) - Native command sandbox for filesystem and network restrictions without containers.
+- [Matchlock](https://github.com/jingkaihe/matchlock) - Linux sandbox aimed at securing AI agent workloads.
+- [Microbox](https://github.com/hqarroum/microbox) - Lightweight ephemeral Linux sandboxes.
+- [nixcage](https://github.com/hamidr/nixcage) - Nix environment sandboxing with `bubblewrap` on Linux and `sandbox-exec` on macOS.
+- [Nono](https://github.com/always-further/nono) - Capability-oriented kernel-backed sandbox for agent execution.
+- [Pent](https://github.com/valentinradu/pent) - Native OS process sandbox for untrusted commands.
+- [Sandbox Runtime](https://github.com/anthropic-experimental/sandbox-runtime) - OS-level filesystem and network restriction layer without containers.
+- [sandbox-run](https://codeberg.org/Grauwolf/sandbox-run) - `bubblewrap`-based wrapper for per-project Linux command isolation.
+- [sandbox-runtime](https://github.com/carderne/sandbox-runtime) - Lightweight process sandbox for filesystem and network policy enforcement.
+- [sandbox-shell](https://github.com/agentic-dev3o/sandbox-shell) - macOS Seatbelt shell wrapper for deny-by-default filesystem access.
+- [sandnix](https://github.com/srid/sandnix) - Nix module for wrapping programs with Landlock or `sandbox-exec`.
+- [SandVault](https://github.com/webcoyote/sandvault) - Runs agents in a separate macOS user account with optional `sandbox-exec` hardening.
+- [shai](https://github.com/colony-2/shai) - Sandboxing shell for AI coding agents.
+- [sucoder](https://github.com/ligon/sucoder) - Unix-permissions-based approach for containing coding agents.
+- [treebeard](https://github.com/divmain/treebeard) - Ephemeral Git worktree sandbox with copy-on-write handling and optional network restrictions.
+- [vibebox](https://github.com/robcholz/vibebox) - Fast local macOS sandbox oriented toward AI-agent use.
+- [workmux](https://github.com/raine/workmux) - Git worktree and `tmux` workflow isolation; useful alongside a real sandbox, but not a full security boundary by itself.
+- [yoloAI](https://github.com/kstenerud/yoloai) - Multi-backend local runner that can use macOS Seatbelt, Tart, or Docker with review/apply workflow.
+- [yolobox](https://github.com/finbarr/yolobox) - Local sandbox focused on letting agents work without exposing the full home directory.
 
-- [Chamber](https://github.com/cirruslabs/chamber) - Runs Claude or Codex inside ephemeral Tart macOS VMs with the current directory mounted, aimed at safer YOLO-mode agent execution.
-- [Cleanroom](https://github.com/buildkite/cleanroom) - Self-hosted microVM sandbox for untrusted code with deny-by-default egress policy, repository-scoped allowlists, and host-side credential proxying.
-- [ClodPod](https://github.com/webcoyote/clodpod) - macOS VM workflow for local Apple-platform development with Xcode and multiple mapped projects.
-- [smolVM](https://github.com/smol-machines/smolvm) - Runs local microVMs for sandboxed workloads, with both ephemeral sandbox mode and persistent Linux VMs for isolated agent execution.
-- [Sculptor](https://github.com/imbue-ai/sculptor) - Desktop app for running parallel Claude agents in isolated containers and pairing with their environments to test and merge changes.
-- [yoloAI](https://github.com/kstenerud/yoloai) - Supports disposable Tart-backed sandboxes on macOS alongside other backends.
-- [zapcode](https://github.com/TheUncharted/zapcode) - TypeScript interpreter for AI agents. Written in Rust. 2µs cold start. Sandboxed. Alternative to MCP tool calling.
-- [BoxLite](https://github.com/boxlite-ai/boxlite) - Embeddable agent sandboxing with persistent state, snapshots, and hardware isolation.
-- [K7](https://github.com/Katakate/k7) - Self-hosted infrastructure for lightweight VM sandboxes with CLI, API, and Python SDK support.
-- [firecracker](https://github.com/avkcode/firecracker-sandbox) - Sandboxing Like a Pro in the Age of GasTown
-- [firecracker](https://github.com/firecracker-microvm/firecracker-go-sdk) - Sandbox: Run untrusted AI code safely, fast
-- [firecracker](https://github.com/hhtpcd/firecracker-sandbox) - Sandbox: Run untrusted AI code safely, fast
-- [lima](https://github.com/recodelabs/lima-devbox) - Show HN: Lima-devbox – Claude skill for creating a VM dev sandbox on your Mac
-- [nervos](https://github.com/ashishgituser/nervos) - Show HN: NervOS – Sandbox for AI Agents Using Firecracker MicroVMs
-- [python](https://github.com/okeso/python-firecracker) - Cloudflare Sandbox SDK
-- [zapcode](https://github.com/theuncharted/zapcode) - Zapcode: A TypeScript interpreter in Rust for AI agents (2µs start, sandbox)
-## Container and runtime sandboxes
+## Virtual machines and microVM platforms
 
-- [AIO Sandbox](https://github.com/agent-infra/sandbox) - All-in-one sandbox environment that combines browser, shell, file APIs, VS Code server, Jupyter, and MCP services in a single Docker container.
-- [ClaudeBox](https://github.com/RchGrav/claudebox) - Docker-based Claude Code environment with per-project isolation, development profiles, persistent state, and firewall allowlists.
-- [Kilntainers](https://github.com/Kiln-AI/Kilntainers) - MCP server that gives each agent an isolated ephemeral Linux sandbox backed by Docker, Podman, cloud microVMs, or WebAssembly.
-- [sandbox-run](https://codeberg.org/Grauwolf/sandbox-run) - Lightweight `bubblewrap` wrapper for sandboxing development tools with per-project isolation for writes, temporary files, and session history.
-- [sandclaude](https://github.com/binwiederhier/sandclaude) - Opinionated Docker wrapper for running Claude Code without restrictions inside a sandboxed container with mounted workspace and host-matched user IDs.
-- [vibebin](https://github.com/jgbrwn/vibebin) - Incus/LXC-based platform for self-hosting persistent AI coding agent sandboxes on a Linux server with HTTPS routing, SSH access, and per-container tooling.
-- [cco](https://github.com/nikvdp/cco) - Thin wrapper that launches Claude Code or Codex inside native OS sandboxes when available, with Docker as a stronger fallback barrier.
-- [bunkervm](https://github.com/ashishgituser/bunkervm) - BunkerVM is a tiny operating system that boots in 2 seconds and gives AI agents a safe, isolated Linux machine to work in. Install it with one command. No Docker. No cloud. No config files.
-- [Amazing Sandbox](https://github.com/ashishb/amazing-sandbox) - Runs third-party tools and AI agents securely on your machine.
-- [EdgeBox](https://github.com/BIGPPWONG/EdgeBox) - Local GUI-powered sandbox for LLM agents with MCP support and a full desktop environment.
-- [Fence](https://github.com/Use-Tusk/fence) - Container-free command sandbox with network and filesystem restrictions.
-- [Greywall](https://github.com/GreyhavenHQ/greywall) - Local agent sandbox with live network controls and visibility via GreyProxy.
-- [Matchlock](https://github.com/jingkaihe/matchlock) - Linux-based sandbox for securing AI agent workloads.
-- [Microbox](https://github.com/HQarroum/microbox) - Lightweight ephemeral sandboxes for Linux workloads.
-- [Nono](https://github.com/always-further/nono) - Kernel-enforced sandbox CLI and SDKs for AI agents with capability-based isolation and auditability.
-- [Pent](https://github.com/valentinradu/Pent) - Runs untrusted processes with filesystem and network restrictions using native OS primitives.
-- [Sandbox Runtime](https://github.com/anthropic-experimental/sandbox-runtime) - Lightweight OS-level sandboxing for filesystem and network restrictions without containers.
-- [SkillSandbox](https://github.com/theMachineClay/skillsandbox) - Capability-based sandbox runtime for AI agent skills.
-- [agentbox](https://github.com/rcarmo/agentbox) - Notes for January 19-25 (My Coding Agent Sandboxing Setup)
-- [agentsafe](https://github.com/sarthak30/agentsafe) - Show HN: AgentSafe – per-task micro-VM sandbox for AI agents (Go)
-- [ash](https://github.com/ash-ai-org/ash-ai) - Building secure, scalable agent sandbox infrastructure
-- [bouvet](https://github.com/vrn21/bouvet) - Built a Sandbox for Agents in Rust
-- [boxed](https://github.com/akshayaggarwal99/boxed) - Show HN: Boxed – Sovereign exec engine for AI agents (Vercel Sandbox inspired)
-- [boxlite](https://github.com/boxlite-labs/boxlite) - BoxLite Love AI agent – SQLite for VMs: embeddable AI agent sandboxing
-- [cagent](https://github.com/noperator/cagent) - Let's discuss sandbox isolation
-- [claude](https://github.com/tech-and-ai/claude-rule-enforcer) - Claude Code escapes its own denylist and sandbox
-- [co](https://github.com/paulkinlan/co-do) - The Browser Is the Sandbox
-- [coderunner](https://github.com/instavm/coderunner) - Sandbox: Run untrusted AI code safely, fast
-- [codex](https://github.com/paulux84/codex-lockbox) - Run Codex CLI in a firewalled Docker sandbox
-- [conch](https://github.com/sd2k/conch) - Show HN: Amla Sandbox – WASM bash shell sandbox for AI agents
-- [construct](https://github.com/estebanforge/construct-cli) - Observed Agent Sandbox Bypasses
-- [edgebox](https://github.com/bigppwong/edgebox) - Show HN: EdgeBox – A local sandbox that gives your LLM agent a full GUI desktop
-- [fence](https://github.com/use-tusk/fence) - Show HN: Fence – Sandbox CLI commands with network/filesystem restrictions
-- [forgemax](https://github.com/postrv/forgemax) - Code Mode inspired local sandboxed MCP Gateway
-- [greywall](https://github.com/greyhavenhq/greywall) - Show HN: Userland local agent sandbox with real-time network control dashboard
-- [gvisor](https://github.com/google/gvisor) - Sandboxing AI agents at the kernel level
-- [k7](https://github.com/katakate/k7) - Cloudflare Sandbox SDK
-- [libkrun](https://github.com/containers/libkrun) - Show HN: Era – Open-source local sandbox for AI agents
-- [litterbox](https://github.com/gerharddc/litterbox) - A deep dive on agent sandboxes
-- [microbox](https://github.com/hqarroum/microbox) - Show HN: Lightweight, Ephemeral, Sandboxes for Linux
-- [microsandbox](https://github.com/zerocore-ai/microsandbox) - The Sandbox Explosion
-- [omniglass](https://github.com/goshtasb/omniglass) - Show HN: OmniGlass – An open-source, sandboxed Visual Action Engine
-- [packnplay](https://github.com/obra/packnplay) - Matchlock – Secures AI agent workloads with a Linux-based sandbox
-- [pent](https://github.com/valentinradu/pent) - Show HN: Pent – A sandbox for AI agents
-- [qonqrete](https://github.com/illdynamics/qonqrete) - Show HN: QonQrete – Local-first multi-agent system for sandboxed code generation
-- [runbox](https://github.com/sahilb315/runbox) - Show HN: Minimal container-like sandbox built from scratch in C
-- [sbox](https://github.com/cvpaul/sbox) - Show HN: Sbox – zero intelligence, pure isolation sandbox
-- [selenai](https://github.com/almclean/selenai) - Show HN: SelenAI – Terminal AI pair-programmer with sandboxed Lua tools
-- [shannot](https://github.com/corv89/shannot) - Observed Agent Sandbox Bypasses
-- [skillsandbox](https://github.com/themachineclay/skillsandbox) - Show HN: SkillSandbox – Capability-based sandbox for AI agent skills (Rust)
-- [smith](https://github.com/sibyllinesoft/smith-core) - Run NanoClaw in Docker Sandboxes
-- [tsk](https://github.com/dtormoen/tsk) - Show HN: TSK – agent sandbox, delegation, and parallelization tool
-- [voratiq](https://github.com/voratiq/voratiq) - YOLO in the Sandbox
-- [vtcode](https://github.com/vinhnx/vtcode) - Show HN: VT Code – LLM-agnostic coding agent with MCP/ACP and sandboxed tools
-- [yourownpersonaljean](https://github.com/waynecider/yourownpersonaljean-luc) - Show HN: YOPJ – Local AI coding agent with 8-layer security sandbox (no cloud)
-- [workmux](https://github.com/raine/workmux) - Sandboxed Git worktrees for AI coding agents
-## Foundational sandbox tools
+- [agentsafe](https://github.com/sarthak30/agentsafe) - Per-task microVM sandbox for AI agents.
+- [avkcode/firecracker-sandbox](https://github.com/avkcode/firecracker-sandbox) - Firecracker-based sandbox experiment.
+- [boxed](https://github.com/akshayaggarwal99/boxed) - Code-execution engine for untrusted agent code across Docker, Firecracker, and Wasm.
+- [boxlite-labs/boxlite](https://github.com/boxlite-labs/boxlite) - Closely related BoxLite implementation under a different org namespace.
+- [BoxLite](https://github.com/boxlite-ai/boxlite) - Embeddable VM-style sandboxing with snapshots and persistent state.
+- [bunkervm](https://github.com/ashishgituser/bunkervm) - Tiny Linux VM environment positioned as a simple safe machine for agents.
+- [Chamber](https://github.com/cirruslabs/chamber) - Ephemeral Tart-based macOS VM runner for Claude or Codex.
+- [Cleanroom](https://github.com/buildkite/cleanroom) - Self-hosted microVM sandbox with deny-by-default egress and credential proxying.
+- [ClodPod](https://github.com/webcoyote/clodpod) - macOS VM workflow that maps host projects into a guest environment.
+- [coderunner](https://github.com/instavm/coderunner) - Hosted-style sandbox runner for untrusted AI code.
+- [hhtpcd/firecracker-sandbox](https://github.com/hhtpcd/firecracker-sandbox) - Another Firecracker sandbox implementation.
+- [K7](https://github.com/katakate/k7) - Self-hosted lightweight VM sandbox infrastructure with API and SDK support.
+- [lima-devbox](https://github.com/recodelabs/lima-devbox) - Lima-based VM dev sandbox workflow for Mac.
+- [nervos](https://github.com/ashishgituser/nervos) - Firecracker-microVM sandbox for AI agents.
+- [python-firecracker](https://github.com/okeso/python-firecracker) - Python interface for Firecracker rather than a full agent sandbox product.
+- [smolVM](https://github.com/smol-machines/smolvm) - Local microVM manager for ephemeral and persistent isolated workloads.
 
-- [bubblewrap](https://github.com/containers/bubblewrap) - Low-level Linux sandbox builder that creates restricted environments via namespaces and filesystem layout controls; used by higher-level tools to define their own security model.
-- [Firejail](https://github.com/netblue30/firejail) - Lightweight Linux sandbox program using namespaces, seccomp-bpf, capabilities, and bundled profiles to restrict untrusted applications.
-- [Minijail](https://github.com/google/minijail) - Sandboxing and containment tool used in ChromeOS and Android, providing both a launcher for sandboxed processes and a library for self-sandboxing.
-- [syd](https://git.sr.ht/~alip/syd) - Linux application sandboxing tool that intercepts system calls in userspace and combines mechanisms like Landlock, namespaces, ptrace, and seccomp into a secure-by-default containment model.
+## Containers, LXC, and packaged runtimes
 
-- [bubblewrap](https://github.com/reubenfirmin/bubblewrap-tui) - Bui – TUI for painless Bubblewrap sandboxing
-- [island](https://github.com/landlock-lsm/island) - Island: Linux sandboxing tool powered by Landlock
-## Permission and policy guardrails
+- [agentbox](https://github.com/gbrindisi/agentbox) - Containerized agent sandbox with network firewalling and privilege dropping.
+- [AIO Sandbox](https://github.com/agent-infra/sandbox) - Full-featured Docker sandbox with shell, browser, files, Jupyter, VS Code server, and MCP.
+- [Amazing Sandbox](https://github.com/ashishb/amazing-sandbox) - General local sandbox for third-party tools and AI agents.
+- [claude-code-devcontainer](https://github.com/trailofbits/claude-code-devcontainer) - Hardened devcontainer template rather than a new sandbox primitive.
+- [ClaudeBox](https://github.com/RchGrav/claudebox) - Docker-based Claude Code environment with persistent state and allowlists.
+- [codex-lockbox](https://github.com/paulux84/codex-lockbox) - Docker sandbox focused on running Codex CLI behind firewall rules.
+- [conch](https://github.com/sd2k/conch) - Wasm/bash-style sandbox approach for agent command execution.
+- [EdgeBox](https://github.com/bigppwong/edgebox) - Local GUI sandbox that exposes a desktop to the agent.
+- [Greywall](https://github.com/greyhavenhq/greywall) - Local sandbox with live network-control and visibility features.
+- [Kilntainers](https://github.com/Kiln-AI/Kilntainers) - MCP-oriented sandbox runtime backed by Docker, Podman, microVMs, or Wasm.
+- [packnplay](https://github.com/obra/packnplay) - Docker-backed command sandbox with worktree and dev-container management.
+- [runbox](https://github.com/sahilb315/runbox) - Minimal container-like sandbox implementation in C.
+- [sandclaude](https://github.com/binwiederhier/sandclaude) - Opinionated Docker wrapper for Claude Code.
+- [sbox](https://github.com/cvpaul/sbox) - Small isolation-first sandbox project.
+- [Sculptor](https://github.com/imbue-ai/sculptor) - Desktop tooling for running agents inside isolated containers and testing changes.
+- [vibebin](https://github.com/jgbrwn/vibebin) - Incus/LXC platform for persistent self-hosted coding-agent sandboxes.
 
-- [Agent Safehouse](https://github.com/eugene1g/agent-safehouse) - Includes reusable least-privilege policy composition for running agents with fewer blanket permissions.
-- [Cupcake](https://github.com/eqtylab/cupcake) - Policy enforcement layer for coding agents that evaluates hook events against OPA/Rego rules and can allow, modify, block, warn, or require review.
-- [cco](https://github.com/nikvdp/cco) - Useful when the goal is to keep an agent in fast autonomous mode while interposing a sandbox boundary.
-- [nah](https://github.com/manuelschipper/nah) - Context-aware Claude Code permission guard that classifies tool calls by action type and applies deterministic allow, ask, or block policies.
-- [predicate-secure](https://github.com/PredicateSystems/predicate-secure) - Policy-based authorization wrapper for AI agents that adds pre-action guardrails, post-execution verification, and auditability across frameworks like Playwright, LangChain, and PydanticAI.
-- [punkgo-jack](https://github.com/PunkGo/punkgo-jack) - Hook adapter for Claude Code and custom agents that records actions in an append-only Merkle log with cryptographic receipts and offline-verifiable session proofs.
+## Policy, approvals, and audit layers
 
-- [sucoder](https://github.com/ligon/sucoder) - Sucoder: Sandbox for coding agents based on Unix filesystem permissions
-## Deprecated and archived projects
+- [claude-rule-enforcer](https://github.com/tech-and-ai/claude-rule-enforcer) - Restriction and rules enforcement around Claude Code behavior.
+- [Cupcake](https://github.com/eqtylab/cupcake) - OPA/Rego-based hook enforcement for coding agents.
+- [deepclause-sdk](https://github.com/deepclause/deepclause-sdk) - Policy/runtime SDK for DML-style authorization logic.
+- [firewarden](https://github.com/pigmonkey/firewarden) - Opens files inside private Firejail sandboxes; more policy wrapper than agent runtime.
+- [nah](https://github.com/manuelschipper/nah) - Deterministic allow/ask/block guard for Claude Code tool calls.
+- [predicate-secure](https://github.com/PredicateSystems/predicate-secure) - Policy-based authorization and post-run verification for agents.
+- [punkgo-jack](https://github.com/PunkGo/punkgo-jack) - Audit and receipt layer for agent actions via Merkle-logged hook events.
+- [shannot](https://github.com/corv89/shannot) - Human-in-the-loop execution and approval flow for LLM agents.
 
-- [Claude Code Sandbox](https://github.com/textcortex/claude-code-sandbox) - Archived Docker-based proof of concept for running Claude Code autonomously in isolated containers with a web UI and Git workflow integration.
+## Foundational sandbox primitives and low-level tooling
+
+- [agentfs](https://github.com/tursodatabase/agentfs) - Agent-oriented filesystem layer, useful as a constrained I/O substrate rather than a complete sandbox.
+- [bubblewrap](https://github.com/containers/bubblewrap) - Core Linux namespace/filesystem sandbox builder.
+- [bVisor](https://github.com/butter-dot-dev/bvisor) - Embedded bash sandbox inspired by gVisor.
+- [firecracker-go-sdk](https://github.com/firecracker-microvm/firecracker-go-sdk) - Go SDK for assembling Firecracker-backed runtimes.
+- [Firejail](https://github.com/netblue30/firejail) - Mature Linux desktop/application sandbox using namespaces and seccomp.
+- [gVisor](https://github.com/google/gvisor) - User-space kernel / application-kernel boundary used to harden containerized execution.
+- [island](https://github.com/landlock-lsm/island) - Landlock-powered Linux sandbox CLI.
+- [libkrun](https://github.com/containers/libkrun) - Lightweight virtualization runtime frequently used under higher-level sandbox systems.
+- [Minijail](https://github.com/google/minijail) - ChromeOS/Android containment launcher and library.
+- [sacre_bleu](https://github.com/hsaliak/sacre_bleu) - Seccomp and Landlock policy generation, injection, and enforcement suite for Linux binaries.
+- [syd](https://git.sr.ht/~alip/syd) - Userspace syscall-intercepting Linux sandbox.
+
+## Profiles, templates, and operational helpers
+
+- [ansible-firejail](https://github.com/debops-contrib/ansible-firejail) - Ansible automation for deploying Firejail profiles.
+- [bubblewrap-tui](https://github.com/reubenfirmin/bubblewrap-tui) - Terminal UI for constructing Bubblewrap command lines.
+- [firejail-profiles](https://github.com/chiraag-nataraj/firejail-profiles) - Profile collection for Firejail-based sandbox setups.
+- [firetools](https://github.com/netblue30/firetools) - GUI companion for working with Firejail sandboxes.
+
+## Adjacent agent systems and specialized experiments
+
+- [ash-ai](https://github.com/ash-ai-org/ash-ai) - Hosted agent infrastructure that includes sandboxing among broader API/session concerns.
+- [bouvet](https://github.com/vrn21/bouvet) - Rust agent sandbox project; promising, but closer to an early experiment than a mature platform.
+- [cagent](https://github.com/noperator/cagent) - Related repository mentioned in sandbox-isolation discussion; not clearly positioned as a general-purpose sandbox product.
+- [co-do](https://github.com/paulkinlan/co-do) - Browser-as-sandbox experiment, useful conceptually but narrower than a general local sandbox.
+- [construct-cli](https://github.com/estebanforge/construct-cli) - Secure loading/execution project for AI agents.
+- [forgemax](https://github.com/postrv/forgemax) - MCP gateway with sandboxed code execution for tool orchestration.
+- [litterbox](https://github.com/gerharddc/litterbox) - Deep-dive repository about agent sandboxes; more analysis than runtime.
+- [microsandbox](https://github.com/zerocore-ai/microsandbox) - Sandbox-focused exploration rather than a clearly defined end-user runtime.
+- [OmniGlass](https://github.com/goshtasb/omniglass) - Sandboxed visual action engine, more specialized than a general code-execution sandbox.
+- [qonqrete](https://github.com/illdynamics/qonqrete) - Local-first multi-agent code-generation system with sandbox claims.
+- [rcarmo/agentbox](https://github.com/rcarmo/agentbox) - Notes and operational writeup about a personal sandboxing setup, not a standalone runtime.
+- [selenai](https://github.com/almclean/selenai) - Terminal pair-programming agent with sandboxed Lua tools.
+- [SkillSandbox](https://github.com/themachineclay/skillsandbox) - Capability-oriented runtime for agent skills rather than a general process/container boundary.
+- [smith-core](https://github.com/sibyllinesoft/smith-core) - Secure personal-agent platform combining sandboxing, policy, and observability.
+- [tsk](https://github.com/dtormoen/tsk) - Delegation and parallelization tool with sandbox positioning.
+- [voratiq](https://github.com/voratiq/voratiq) - Agent-ensemble coding system; sandboxing is secondary to orchestration.
+- [VTCode](https://github.com/vinhnx/vtcode) - Coding agent with strong shell-safety posture, but not primarily a sandbox runtime.
+- [YourOwnPersonalJean-Luc](https://github.com/waynecider/yourownpersonaljean-luc) - Local coding agent with defense-in-depth positioning.
+- [zapcode](https://github.com/TheUncharted/zapcode) - Sandboxed TypeScript execution engine for AI tools, closer to a specialized runtime than a full workstation sandbox.
 
 ## References
 
-- [Awesome Sandbox](https://github.com/restyler/awesome-sandbox) - Survey of sandboxing technologies and platforms, including AI-oriented runtimes.
-- [Awesome Agent Sandboxes](https://github.com/arjan/awesome-agent-sandboxes) - A curated list of code-execution sandboxing solutions for AI/LLM agents.
-- [Hacker News discussion: Agent Safehouse](https://news.ycombinator.com/item?id=47301085) - Discussion that surfaced several current approaches to local agent isolation, including SandVault and yoloAI.
-- [Hacker News discussion: Let's discuss sandbox isolation](https://news.ycombinator.com/item?id=47184049) - Practitioner discussion comparing user-account isolation, VMs, `bubblewrap`, and other models.
-- [Hacker News thread 47343927](https://news.ycombinator.com/item?id=47343927) - Additional recent context on permission systems and the limits of coarse allow-or-deny prompts.
+- [Awesome Agent Sandboxes](https://github.com/arjan/awesome-agent-sandboxes) - Curated list focused on AI/LLM execution sandboxes.
+- [Awesome Sandbox](https://github.com/restyler/awesome-sandbox) - Broad survey of sandboxing technologies and platforms.
+- [Hacker News discussion: Agent Safehouse](https://news.ycombinator.com/item?id=47301085) - Discussion of recent local agent-isolation approaches.
+- [Hacker News discussion: Let's discuss sandbox isolation](https://news.ycombinator.com/item?id=47184049) - Practitioner thread comparing user accounts, VMs, `bubblewrap`, and related approaches.
+- [Hacker News thread 47343927](https://news.ycombinator.com/item?id=47343927) - Additional discussion on permissions and coarse-grained approval models.
 
 ## Contributing
 
